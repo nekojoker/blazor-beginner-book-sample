@@ -8,17 +8,17 @@
 <EditForm Model="@Model" OnValidSubmit="@OnValidSubmit" FormName="ContactForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="form-group">
-        <label>名前</label>
-        <InputText class="form-control" @bind-Value="@Model.Name" />
+    <div class="mb-3">
+        <label class="form-label" for="input1">名前</label>
+        <InputText class="form-control" @bind-Value="@Model.Name" id="input1"/>
     </div>
-    <div class="form-group">
-        <label>メールアドレス</label>
-        <InputText class="form-control" @bind-Value="@Model.Email" type="email" />
+    <div class="mb-3">
+        <label class="form-label" for="input2">メールアドレス</label>
+        <InputText class="form-control" @bind-Value="@Model.Email" id="input2" type="email" />
     </div>
-    <div class="form-group">
-        <label>内容</label>
-        <InputTextArea class="form-control" @bind-Value="@Model.Content" />
+    <div class="mb-3">
+        <label class="form-label" for="input3">内容</label>
+        <InputTextArea class="form-control" @bind-Value="@Model.Content" id="input3" />
     </div>
     <button type="submit" class="btn btn-primary">送信</button>
 </EditForm>
