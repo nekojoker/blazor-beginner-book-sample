@@ -37,15 +37,15 @@
 
     public class ContactFormModel
     {
-        [Required]
-        [MinLength(3)]
-        [MaxLength(10)]
+        [Required(ErrorMessage = "名前は入力必須です。")]
+        [MinLength(3, ErrorMessage = "名前は3文字以上入力してください。")]
+        [MaxLength(10, ErrorMessage = "名前は10文字以下にしてください。")]
         public string Name { get; set; } = "";
 
-        [Required]
+        [Required(ErrorMessage = "メールアドレスは入力必須です。")]
         public string Email { get; set; } = "";
 
-        [Required]
+        [Required(ErrorMessage = "内容は入力必須です。")]
         public string Content { get; set; } = "";
     }
 }
