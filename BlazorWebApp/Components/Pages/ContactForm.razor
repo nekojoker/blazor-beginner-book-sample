@@ -1,0 +1,51 @@
+﻿@page "/contact"
+@rendermode InteractiveServer
+@using System.ComponentModel.DataAnnotations;
+
+<PageTitle>お問い合わせフォーム</PageTitle>
+<h3>お問い合わせフォーム</h3>
+
+<EditForm Model="@Model" OnValidSubmit="@OnValidSubmit" FormName="ContactForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label>名前</label>
+        <InputText class="form-control" @bind-Value="@Model.Name" />
+    </div>
+    <div class="form-group">
+        <label>メールアドレス</label>
+        <InputText class="form-control" @bind-Value="@Model.Email" type="email" />
+    </div>
+    <div class="form-group">
+        <label>内容</label>
+        <InputTextArea class="form-control" @bind-Value="@Model.Content" />
+    </div>
+    <button type="submit" class="btn btn-primary">送信</button>
+</EditForm>
+
+<p style="font-size: 20px;margin-top: 20px;">
+    @resultMessage
+</p>
+
+@code {
+    [SupplyParameterFromForm]
+    private ContactFormModel Model { get; set; } = new();
+    private string resultMessage = "";
+
+    private void OnValidSubmit()
+        => resultMessage = "お問い合わせありがとうございました！";
+
+    public class ContactFormModel
+    {
+        [Required]
+        [MinLength(3)]
+        [MaxLength(10)]
+        public string Name { get; set; } = "";
+
+        [Required]
+        public string Email { get; set; } = "";
+
+        [Required]
+        public string Content { get; set; } = "";
+    }
+}
