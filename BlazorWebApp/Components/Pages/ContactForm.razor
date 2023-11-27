@@ -5,12 +5,12 @@
 <PageTitle>お問い合わせフォーム</PageTitle>
 <h3>お問い合わせフォーム</h3>
 
-<EditForm Model="@Model" OnValidSubmit="@OnValidSubmit" FormName="ContactForm">
+<EditForm EditContext="@editContext" OnValidSubmit="@OnValidSubmit" FormName="ContactForm">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="mb-3">
         <label class="form-label" for="input1">名前</label>
-        <InputText class="form-control" @bind-Value="@Model.Name" id="input1"/>
+        <InputText class="form-control" @bind-Value="@Model.Name" id="input1" />
     </div>
     <div class="mb-3">
         <label class="form-label" for="input2">メールアドレス</label>
@@ -20,12 +20,19 @@
         <label class="form-label" for="input3">内容</label>
         <InputTextArea class="form-control" @bind-Value="@Model.Content" id="input3" />
     </div>
-    <button type="submit" class="btn btn-primary">送信</button>
+    <button type="submit" class="btn btn-primary" disabled="@formInvalid">送信</button>
 </EditForm>
 
 <p style="font-size: 20px;margin-top: 20px;">
     @resultMessage
 </p>
+
+@if (!string.IsNullOrEmpty(resultMessage))
+{
+    <p>名前:@Model.Name</p>
+    <p>メールアドレス:@Model.Email</p>
+    <p>内容:@Model.Content</p>
+}
 
 @code {
     [SupplyParameterFromForm]
@@ -48,4 +55,16 @@
         [Required(ErrorMessage = "内容は入力必須です。")]
         public string Content { get; set; } = "";
     }
+
+    private bool formInvalid = true;
+    private EditContext? editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(Model);
+        editContext.OnFieldChanged += OnFieldChanged;
+    }
+
+    private void OnFieldChanged(object? sender, FieldChangedEventArgs e)
+        => formInvalid = !editContext!.Validate();
 }
